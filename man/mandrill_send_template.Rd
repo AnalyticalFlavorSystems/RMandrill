@@ -3,7 +3,8 @@
 \alias{mandrill_send_template}
 \title{Send an email with template}
 \usage{
-mandrill_send_template(api_key, template, content, email)
+mandrill_send_template(api_key, template_name, variables, subject, recipient,
+  sender)
 }
 \arguments{
 \item{api_key}{Your Stripe API Key}

@@ -13,10 +13,14 @@ require(httr)
 #'
 #' @export
 #'
-mandrill_send_template <- function(api_key, template_name, content, to_email, sender) {
+mandrill_send_template <- function(api_key, template_name, variables, subject, recipient, sender) {
   to <- data.frame(email=recipient)
+  merge_vars <- data.frame(rcpt=recipient)
+  merge_vars$vars <- list(variables)
   sendData <- list(key=api_key, template_name=template_name, 
-                   template_content=content, message=list(to=to, from_email=sender))
+                   template_content=list(), 
+                   message=list(subject=subject, merge_vars=merge_vars, 
+                                to=to, from_email=sender))
   link <- "https://mandrillapp.com/api/1.0/messages/send-template.json"
   jsonData <- toJSON(sendData, auto_unbox=TRUE)
   .post(link, jsonData)
