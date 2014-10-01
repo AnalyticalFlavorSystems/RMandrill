@@ -1,13 +1,14 @@
 Package: RMandrill
-Title: What the package does (short line)
+Title: This package is an api wrapper for R to use mandrill
 Version: 0.1
-Authors@R: "First Last <first.last@example.com> [aut, cre]"
-Description: What the package does (paragraph)
+Author: Evan Farrell <evandev@gastrograph.com>
+Maintainer: Evan Farrell <evandev@gastrograph.com>
+Description: This package is an api wrapper that sends emails using the mandrill platform
 Depends:
     R (>= 3.1.1)
-License: What license is it under?
-LazyData: true
 Imports:
     jsonlite,
     RCurl,
     httr
+License: MIT + file LICENSE
+LazyData: true
