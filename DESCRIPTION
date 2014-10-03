@@ -3,7 +3,8 @@ Title: This package is an api wrapper for R to use mandrill
 Version: 0.1
 Author: Evan Farrell <evandev@gastrograph.com>
 Maintainer: Evan Farrell <evandev@gastrograph.com>
-Description: This package is an api wrapper that sends emails using the mandrill platform
+Description: This package is an api wrapper that sends emails using the
+    mandrill platform
 Depends:
     R (>= 3.1.0)
 Imports:
