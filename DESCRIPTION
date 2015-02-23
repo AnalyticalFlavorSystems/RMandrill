@@ -10,6 +10,9 @@ Depends:
 Imports:
     jsonlite,
     RCurl,
-    httr
+    httr,
+    stringr,
+    dplyr,
+    base64
 License: MIT + file LICENSE
 LazyData: true
