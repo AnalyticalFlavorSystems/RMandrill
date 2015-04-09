@@ -4,7 +4,9 @@ mandrill_send_template <- function(api_key=NA,
                                    subject=NA, 
                                    recipient=NA, 
                                    sender=NA,
-                                   images=NULL) {
+                                   contents=NULL,
+                                   images=NULL,
+                                   css=FALSE) {
   to <- data.frame(email=recipient)
   merge_vars <- data.frame(rcpt=recipient)
   merge_vars$vars <- list(variables)
@@ -16,7 +18,7 @@ mandrill_send_template <- function(api_key=NA,
       temp<-tempfile()
       
       #get image name
-      image_name<-str_extract(image, "(//.+$)") %>% 
+      image_name<-str_extract(image, "(/.+$)") %>% 
         str_replace("(//|/)", "") %>% 
         str_replace(".png", "")
         
@@ -42,15 +44,36 @@ mandrill_send_template <- function(api_key=NA,
     images_out<-dplyr::rbind_all(lapply(images, process_images))
     
   }
+
+  template_contents<-data.frame()
+  if(!missing(contents)){
+    
+    process_contents<-function(content){
+      content_name<-deparse(substitute(content))
+      out_df<-data.frame(name=content_name,
+                         content=content[[1]])
+      
+      return(out_df)
+    }
+    
+    #template_contents<-lapply(contents,function(x) process_contents(x))
+    for(content in names(contents)){
+      content_name<-content
+      out_df<-data.frame(name=content_name,
+                         content=contents[[content]])
+      template_contents<-rbind(template_contents,out_df)
+    }
+  }
   
   
   sendData <- list(key=api_key, template_name=template_name, 
-                   template_content=list(), 
+                   template_content=template_contents, 
                    message=list(subject=subject, 
                                 merge_vars=merge_vars, 
                                 to=to, 
                                 from_email=sender,
-                                images=images_out
+                                images=images_out,
+                                inline_css=css
                                 )
                    )
   link <- "https://mandrillapp.com/api/1.0/messages/send-template.json"
