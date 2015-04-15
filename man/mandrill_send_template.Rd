@@ -13,24 +13,25 @@ mandrill_send_template(api_key = NA, template_name = NA, variables = NA,
 
 \item{template_name}{name of template on Mandrill to use}
 
-\item{variables}{list of variables used in template to be filled in}
+\item{variables}{list of merge variables used in template to be filled in}
 
 \item{subject}{character vector (single element) to populate email subject line}
 
 \item{recipient}{character vector of email addresses of recipients}
 
-\item{sender}{characer vector of sendes' email addresses}
+\item{sender}{character vector of senders' email addresses}
 
-\item{contents}{contents of email}
+\item{contents}{list HTML  contents to be replaced in Mandrill template.  These are used to replace content
+between HTML tags that have a CSS class of `mc:edit="content_name"` where the name of the object in the list
+must match the the `content_name` in in the template.}
 
-\item{images}{character vector of PNGs to include in email.  names (minus the suffix)
-must match the image declaration in the Mandrill template. Also note that images must
-saved in same directory as calling environment.}
+\item{images}{character vector denoting location PNGs to include in email. PNG file names (minus the suffix and
+any preceeding path directories) must match the image declaration in the Mandrill template.}
 
-\item{css}{whether to include inline CSS or not.}
+\item{css}{whether to include inline CSS or not.  This CSS must be already present in the Mandrill template}
 }
 \value{
-nothing
+contents of HTTP Response.
 }
 \description{
 This sends an email with template
