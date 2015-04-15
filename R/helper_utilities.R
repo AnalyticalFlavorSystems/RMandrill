@@ -10,7 +10,10 @@ process_images <- function(image){
   temp<-tempfile()
   
   #get image name
-  image_name <- stringr::str_extract(image, "(/.+$)") %>% 
+  image_name <- gsub("(.+\\/)(.+$)", 
+                     "\\2", 
+                     image, 
+                     perl = T) %>%
     stringr::str_replace("(//|/)", "") %>% 
     stringr::str_replace(".png", "")
   
@@ -25,7 +28,8 @@ process_images <- function(image){
   
   out_df <- data.frame(type="img/png", 
                      name=image_name, 
-                     content=image_encoded
+                     content=image_encoded,
+                     stringsAsFactors = FALSE
                      )
 
   # return
@@ -41,7 +45,8 @@ process_images <- function(image){
 process_contents <- function(content){
   content_name<-deparse(substitute(content))
   out_df<-data.frame(name=content_name,
-                     content=content[[1]])
+                     content=content[[1]],
+                     stringsAsFactors = FALSE)
   
   # return
   out_df
