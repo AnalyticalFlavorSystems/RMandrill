@@ -5,11 +5,15 @@ Author: Evan Farrell <evandev@gastrograph.com>
 Maintainer: Evan Farrell <evandev@gastrograph.com>
 Description: This package is an api wrapper that sends emails using the
     mandrill platform
-Depends:
-    R (>= 3.1.0)
-Imports:
+Depends: 
+    R (>= 3.1.0),
+    dplyr
+Imports: 
     jsonlite,
     RCurl,
-    httr
+    httr,
+    stringr,
+    dplyr,
+    base64
 License: MIT + file LICENSE
 LazyData: true
