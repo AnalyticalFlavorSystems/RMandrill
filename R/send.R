@@ -18,7 +18,8 @@
 #' 
 #' will be converted by jsonlite::toJSON into an JSON array that Mandrill can understand.
 #' @param subject character vector (single element) to populate email subject line
-#' @param recipient character vector of email addresses of recipients
+#' @param recipient character vector of email addresses of recipients, or data.frame with
+#' headers "email", "name", and "type", per mandrill documentation.
 #' @param sender character vector of senders' email addresses
 #' @param contents list HTML contents to be replaced in Mandrill template.  These are used to replace content
 #' between HTML tags that have a CSS class of `mc:edit="content_name"` where the name of the object in the list
@@ -43,8 +44,11 @@ mandrill_send_template <- function(api_key = NA,
                                    contents = NULL,
                                    images = NULL,
                                    css = FALSE) {
-  to <- data.frame(email = recipient, 
-                   stringsAsFactors = FALSE)
+  if (class(recipient) == "data.frame") {
+    to <- recipient
+  } else {
+    to <- data.frame(email = recipient, stringsAsFactors = FALSE)
+  }
   merge_vars <- data.frame(rcpt = recipient, 
                            stringsAsFactors = FALSE)
   merge_vars$vars <- list(variables)

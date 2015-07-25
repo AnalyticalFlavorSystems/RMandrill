@@ -28,7 +28,8 @@ will be converted by jsonlite::toJSON into an JSON array that Mandrill can under
 
 \item{subject}{character vector (single element) to populate email subject line}
 
-\item{recipient}{character vector of email addresses of recipients}
+\item{recipient}{character vector of email addresses of recipients, or data.frame with
+headers "email", "name", and "type", per mandrill documentation.}
 
 \item{sender}{character vector of senders' email addresses}
 
