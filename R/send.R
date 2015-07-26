@@ -5,16 +5,16 @@
 #' @param api_key your Mandrill API Key.
 #'
 #' @param template_name name of template on Mandrill to use
-#' @param variables list of merge variables used in template to be filled in.
+#' @param global_variables list of global merge variables used in template to be filled in.
 #' Mandrill expects these to come as an array, with each key/value pair split into
 #' name: key, content: value.  for instance, if your key was named 'orderid', and the value was
 #' 'order1019', Mandrill would expect the JSON for these merge variables to look like 
 #' 
-#' \code{`vars": [{"name": "orderid", "content": "order1019"}]`}.  
+#' \code{`global_merge_vars": [{"name": "orderid", "content": "order1019"}]`}.  
 #' 
 #' one easy way to pass these variables is as a data frame.  using our example above,
 #' 
-#' \code{variables = data.frame('name'=c('orderid'), 'content'=c('order1019'))} 
+#' \code{global_variables = data.frame('name'=c('orderid'), 'content'=c('order1019'))} 
 #' 
 #' will be converted by jsonlite::toJSON into an JSON array that Mandrill can understand.
 #' @param subject character vector (single element) to populate email subject line
@@ -37,7 +37,7 @@
 
 mandrill_send_template <- function(api_key = NA, 
                                    template_name = NA, 
-                                   variables = NA, 
+                                   global_variables = NA, 
                                    subject = NA, 
                                    recipient = NA, 
                                    sender = NA,
@@ -49,9 +49,6 @@ mandrill_send_template <- function(api_key = NA,
   } else {
     to <- data.frame(email = recipient, stringsAsFactors = FALSE)
   }
-  merge_vars <- data.frame(rcpt = recipient, 
-                           stringsAsFactors = FALSE)
-  merge_vars$vars <- list(variables)
 
   images_out <- NA
   if (!missing(images)) {    
@@ -64,7 +61,7 @@ mandrill_send_template <- function(api_key = NA,
       content_name <- content
       out_df <- data.frame(name = content_name,
                            content = contents[[content]])
-      template_contents <- rbind(template_contents,out_df)
+      template_contents <- rbind(template_contents, out_df)
     }
   }
   
@@ -73,7 +70,7 @@ mandrill_send_template <- function(api_key = NA,
                    template_name = template_name, 
                    template_content = template_contents, 
                    message = list(subject = subject, 
-                                  merge_vars = merge_vars, 
+                                  global_merge_vars = global_variables, 
                                   to = to, 
                                   from_email = sender,
                                   images = images_out,
@@ -82,6 +79,7 @@ mandrill_send_template <- function(api_key = NA,
                    )
   link <- "https://mandrillapp.com/api/1.0/messages/send-template.json"
   jsonData <- jsonlite::toJSON(sendData, auto_unbox = TRUE)
+  print(jsonData)
   .post(link, jsonData)
 }
 

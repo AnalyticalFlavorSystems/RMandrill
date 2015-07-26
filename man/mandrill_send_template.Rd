@@ -4,25 +4,25 @@
 \alias{mandrill_send_template}
 \title{Send an email with template}
 \usage{
-mandrill_send_template(api_key = NA, template_name = NA, variables = NA,
-  subject = NA, recipient = NA, sender = NA, contents = NULL,
-  images = NULL, css = FALSE)
+mandrill_send_template(api_key = NA, template_name = NA,
+  global_variables = NA, subject = NA, recipient = NA, sender = NA,
+  contents = NULL, images = NULL, css = FALSE)
 }
 \arguments{
 \item{api_key}{your Mandrill API Key.}
 
 \item{template_name}{name of template on Mandrill to use}
 
-\item{variables}{list of merge variables used in template to be filled in.
+\item{global_variables}{list of global merge variables used in template to be filled in.
 Mandrill expects these to come as an array, with each key/value pair split into
 name: key, content: value.  for instance, if your key was named 'orderid', and the value was
 'order1019', Mandrill would expect the JSON for these merge variables to look like
 
-\code{`vars": [{"name": "orderid", "content": "order1019"}]`}.
+\code{`global_merge_vars": [{"name": "orderid", "content": "order1019"}]`}.
 
 one easy way to pass these variables is as a data frame.  using our example above,
 
-\code{variables = data.frame('name'=c('orderid'), 'content'=c('order1019'))}
+\code{global_variables = data.frame('name'=c('orderid'), 'content'=c('order1019'))}
 
 will be converted by jsonlite::toJSON into an JSON array that Mandrill can understand.}
 
